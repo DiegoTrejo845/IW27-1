@@ -1,0 +1,516 @@
+/* ==========================================================
+   1. VARIABLES GLOBALES
+   ========================================================== */
+:root {
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+
+  --radius: 0.75rem;
+  --gap: 1rem;
+  --page-padding: clamp(1rem, 3vw, 2rem);
+
+  
+  --sombra-elegante: 0 10px 25px -5px hsla(222, 47%, 11%, 0.08);
+  --transicion-suave: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================
+   2. PALETAS EN HSL (regla 60-30-10)
+   hsl(tono, saturación, luminosidad)
+   - 60 %: fondo de la página (claro, con degradado)
+   - 30 %: secundario (encabezado, pie, títulos)
+   - 10 %: acento (pestaña activa, subrayados, viñetas)
+   Cada currículum usa un esquema de armonía distinto.
+   ========================================================== */
+
+/* Currículum 1 (por defecto): MONOCROMÁTICO
+   Un solo tono (250°, índigo); solo cambian saturación y luminosidad. */
+.pagina {
+  --fondo-1: hsl(250, 50%, 97%);
+  --fondo-2: hsl(250, 40%, 88%);
+  --secundario: hsl(250, 45%, 24%);
+  --acento: hsl(250, 70%, 52%);
+  --acento-suave: hsl(250, 70%, 93%);
+  --sobre-acento: hsl(0, 0%, 100%);     /* texto encima del acento */
+  --superficie: hsl(250, 50%, 99%);     /* tarjetas */
+  --borde: hsl(250, 30%, 86%);
+  --texto: hsl(250, 25%, 15%);
+}
+
+/* Currículum 2: ANÁLOGO
+   Tres tonos vecinos en el círculo cromático: 140°, 170° y 200°. */
+#pestaña-opcion-2:checked ~ .pagina {
+  --fondo-1: hsl(140, 40%, 95%);
+  --fondo-2: hsl(170, 40%, 86%);
+  --secundario: hsl(200, 60%, 18%);
+  --acento: hsl(170, 85%, 26%);
+  --acento-suave: hsl(170, 55%, 91%);
+  --sobre-acento: hsl(0, 0%, 100%);
+  --superficie: hsl(170, 40%, 99%);
+  --borde: hsl(170, 25%, 82%);
+  --texto: hsl(200, 30%, 14%);
+}
+
+/* Currículum 3: COMPLEMENTARIO
+   Un tono y su opuesto: 215° (azul) + 180° = 35° (naranja). */
+#pestaña-opcion-3:checked ~ .pagina {
+  --fondo-1: hsl(215, 30%, 96%);
+  --fondo-2: hsl(215, 30%, 87%);
+  --secundario: hsl(215, 50%, 20%);
+  --acento: hsl(35, 95%, 52%);
+  --acento-suave: hsl(35, 90%, 90%);
+  --sobre-acento: hsl(215, 50%, 15%);
+  --superficie: hsl(215, 30%, 99%);
+  --borde: hsl(215, 20%, 84%);
+  --texto: hsl(215, 30%, 15%);
+}
+
+/* ==========================================================
+   3. RESET BÁSICO
+   ========================================================== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+/* Fondo con degradado: varía la tonalidad del color del 60 % */
+.pagina {
+  min-height: 100vh;
+  color: var(--texto);
+  background: linear-gradient(135deg, var(--fondo-1), var(--fondo-2));
+}
+
+/* ==========================================================
+   4. NAVEGACIÓN POR PESTAÑAS CON CSS 
+   ========================================================== */
+
+.control-pestaña {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contenedor-opc {
+  display: none;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+
+#pestaña-opcion-1:checked ~ .pagina #contenido-opc1,
+#pestaña-opcion-2:checked ~ .pagina #contenido-opc2,
+#pestaña-opcion-3:checked ~ .pagina #contenido-opc3 {
+  display: block;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Botones del menú de navegación */
+.menu-navegacion {
+  align-items: center;
+}
+
+.enlace-opcion {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  color: var(--secundario);
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transicion-suave);
+}
+
+.enlace-opcion:hover {
+  background: var(--acento-suave);
+}
+
+.enlace-opcion small {
+  font-weight: 400;
+}
+
+/* Botón de la opción activa (color de acento, el 10 %).*/
+#pestaña-opcion-1:checked ~ .pagina .enlace-opcion[for="pestaña-opcion-1"],
+#pestaña-opcion-2:checked ~ .pagina .enlace-opcion[for="pestaña-opcion-2"],
+#pestaña-opcion-3:checked ~ .pagina .enlace-opcion[for="pestaña-opcion-3"] {
+  background: var(--acento);
+  border-color: var(--acento);
+  color: var(--sobre-acento);
+}
+
+/* Contorno visible cuando se navega con el teclado */
+#pestaña-opcion-1:focus-visible ~ .pagina .enlace-opcion[for="pestaña-opcion-1"],
+#pestaña-opcion-2:focus-visible ~ .pagina .enlace-opcion[for="pestaña-opcion-2"],
+#pestaña-opcion-3:focus-visible ~ .pagina .enlace-opcion[for="pestaña-opcion-3"] {
+  outline: 3px solid var(--secundario);
+  outline-offset: 3px;
+}
+
+.nombre-paleta span {
+  display: none;
+}
+
+#pestaña-opcion-1:checked ~ .pagina .paleta-cv1,
+#pestaña-opcion-2:checked ~ .pagina .paleta-cv2,
+#pestaña-opcion-3:checked ~ .pagina .paleta-cv3 {
+  display: inline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contenedor-opc {
+    animation: none;
+  }
+}
+
+/* ==========================================================
+   5. HOLY GRAIL LAYOUT (CSS Grid)
+   La estructura es la misma en las tres pestañas.
+   ========================================================== */
+.layout {
+  display: grid;
+  grid-template-columns:
+    minmax(180px, 220px)
+    minmax(0, 1fr)
+    minmax(180px, 240px);
+
+  grid-template-rows: auto auto minmax(60vh, 1fr) auto;
+
+  grid-template-areas:
+    "header  header  header"
+    "nav     nav     nav"
+    "left    main    right"
+    "footer  footer  footer";
+
+  gap: var(--gap);
+  min-height: 100vh;
+  padding: var(--page-padding);
+  max-width: 1600px;
+  margin-inline: auto;
+}
+
+/* Regiones */
+.header {
+  grid-area: header;
+}
+
+.nav {
+  grid-area: nav;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.sidebar-left {
+  grid-area: left;
+}
+
+.main {
+  grid-area: main;
+  min-width: 0;
+}
+
+.sidebar-right {
+  grid-area: right;
+}
+
+.footer {
+  grid-area: footer;
+}
+
+/* Estilos compartidos */
+.header,
+.nav,
+.sidebar,
+.main,
+.footer {
+  padding: 1.5rem;
+  border-radius: var(--radius);
+}
+
+/* Secundario (el 30 %): encabezado y pie */
+.header,
+.footer {
+  background: var(--secundario);
+  color: hsl(0, 0%, 100%);
+  transition: background-color 0.2s;
+}
+
+.header h1 {
+  margin-bottom: 0.25rem;
+}
+
+.header p,
+.footer p {
+  margin-bottom: 0;
+}
+
+/* Tarjetas */
+.nav,
+.sidebar,
+.main {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra-elegante);
+}
+
+/* ==========================================================
+   6. CONTENIDO
+   ========================================================== */
+
+.sidebar h2,
+.seccion h2 {
+  font-size: 1.15rem;
+  color: var(--secundario);
+}
+
+.seccion h2 {
+  display: inline-block;
+  padding-bottom: 0.25rem;
+  border-bottom: 3px solid var(--acento);
+}
+
+.seccion + .seccion {
+  margin-top: 1.75rem;
+}
+
+.etiqueta-cv {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--secundario);
+}
+
+/* Educación */
+.lista-educacion {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lista-educacion li {
+  padding-left: 1rem;
+  border-left: 3px solid var(--acento);
+}
+
+.lista-educacion li + li {
+  margin-top: 1rem;
+}
+
+.lista-educacion h3 {
+  font-size: 1rem;
+  margin-bottom: 0.15rem;
+}
+
+.lista-educacion p {
+  margin-bottom: 0;
+}
+
+/* Habilidades */
+.habilidades dt {
+  font-weight: 700;
+  color: var(--secundario);
+}
+
+.habilidades dd {
+  margin: 0.4rem 0 1.25rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.5rem;
+}
+
+.chips li {
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  background: var(--acento-suave);
+  font-size: 0.9rem;
+}
+
+/* Competencias: viñetas con el color de acento */
+.lista-competencias {
+  padding-left: 1.25rem;
+  margin: 0;
+}
+
+.lista-competencias li + li {
+  margin-top: 0.5rem;
+}
+
+.lista-competencias li::marker {
+  color: var(--acento);
+}
+
+.imagen-circular {
+  display: block;
+  width: 130px;         /* ancho fijo */
+  height: 130px;        /* alto igual al ancho: cuadrado perfecto */
+  margin: 0 auto 1.25rem;
+  border-radius: 50%;   /* vuelve los bordes completamente circulares */
+  object-fit: cover;    /* evita que la imagen se deforme o estire */
+  border: 4px solid var(--acento);
+  background: var(--acento-suave); /* fondo detrás del avatar transparente */
+}
+
+/* Laterales */
+.lista-contacto {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.lista-contacto li + li {
+  margin-top: 0.75rem;
+}
+
+.dato {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--secundario);
+}
+
+.datos {
+  margin: 0 0 1.5rem;
+}
+
+.datos dt {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--secundario);
+}
+
+.datos dd {
+  margin: 0 0 0.75rem;
+}
+
+.nombre-paleta {
+  font-size: 0.9rem;
+}
+
+.muestras {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.muestras li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.muestras li + li {
+  margin-top: 0.4rem;
+}
+
+.muestra {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  border: 1px solid var(--borde);
+}
+
+.muestra-60 {
+  background: linear-gradient(135deg, var(--fondo-1), var(--fondo-2));
+}
+
+.muestra-30 {
+  background: var(--secundario);
+}
+
+.muestra-10 {
+  background: var(--acento);
+}
+
+/* ==========================================================
+   7. RESPONSIVE: TABLET Y MÓVIL
+   ========================================================== */
+@media (max-width: 800px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+    grid-template-rows: auto auto auto auto auto;
+
+    grid-template-areas:
+      "header header"
+      "nav    nav"
+      "main   main"
+      "left   right"
+      "footer footer";
+  }
+}
+
+@media (max-width: 520px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+
+    grid-template-rows: auto;
+
+    grid-template-areas:
+      "header"
+      "nav"
+      "main"
+      "left"
+      "right"
+      "footer";
+  }
+
+  .header,
+  .nav,
+  .sidebar,
+  .main,
+  .footer {
+    padding: 1rem;
+  }
+
+  .nav {
+    gap: 0.5rem;
+  }
+
+  .enlace-opcion {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+}

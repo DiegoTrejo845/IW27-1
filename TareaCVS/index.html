@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+ 
+  <meta charset="UTF-8" />
+ 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Visor de currículums de Diego Uriel Perez Trejo con navegación por pestañas en CSS puro"
+  />
+  
+  <title>Currículums | Diego Uriel Perez Trejo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <input type="radio" id="pestaña-opcion-1" name="grupo-menu" class="control-pestaña" checked />
+  <input type="radio" id="pestaña-opcion-2" name="grupo-menu" class="control-pestaña" />
+  <input type="radio" id="pestaña-opcion-3" name="grupo-menu" class="control-pestaña" />
+
+  <div class="pagina">
+    <div class="layout">
+      <header class="header">
+        <h1>Diego Uriel Perez Trejo</h1>
+        <p>Estudiante de Ingeniería en Telemática · IPN – UPIITA</p>
+      </header>
+
+      
+      <nav class="nav menu-navegacion" aria-label="Elegir currículum">
+        <label for="pestaña-opcion-1" class="enlace-opcion">Currículum 1 <small>monocromático</small></label>
+        <label for="pestaña-opcion-2" class="enlace-opcion">Currículum 2 <small>análogo</small></label>
+        <label for="pestaña-opcion-3" class="enlace-opcion">Currículum 3 <small>complementario</small></label>
+      </nav>
+
+    
+      <aside class="sidebar sidebar-left">
+      
+        <img
+          src="https://api.dicebear.com/7.x/adventurer/svg?seed=Diego"
+          alt="Avatar de Diego Uriel Perez Trejo"
+          class="imagen-circular"
+        />
+
+        <h2>Contacto</h2>
+        <ul class="lista-contacto">
+          <li>
+            <span class="dato">Ubicación</span>
+            Coyoacán, CDMX
+          </li>
+          <li>
+            <span class="dato">Teléfono</span>
+            <a href="tel:+525568931829">55 6893 1829</a>
+          </li>
+          <li>
+            <span class="dato">Correo</span>
+            <a href="mailto:utrejo926@gmail.com">utrejo926@gmail.com</a>
+          </li>
+        </ul>
+      </aside>
+
+      <main class="main contenido-principal">
+      <!-- ===== Currículum 1 ===== -->
+      <article id="contenido-opc1" class="contenedor-opc">
+        <p class="etiqueta-cv">Currículum 1 de 3 · paleta monocromática</p>
+
+        <section class="seccion">
+          <h2>Resumen profesional</h2>
+          <p>
+            Estudiante de 8vo semestre de Ingeniería en Telemática en el Instituto
+            Politécnico Nacional (IPN - UPIITA), con disponibilidad de horario para
+            incorporarse de inmediato en modalidad de medio tiempo e híbrida. Cuento con
+            bases sólidas en lógica de programación (C, Java, HTML) y en administración de
+            Sistemas Operativos (Unix/Linux y Windows), así como experiencia práctica en la
+            configuración y uso de Máquinas Virtuales (VM Oracle) para pruebas en distintos
+            entornos.
+          </p>
+          <p>
+            Interesado genuinamente en iniciar mi desarrollo profesional en el Aseguramiento
+            de Calidad (QA) de software, aplicando pensamiento analítico, atención al detalle
+            y capacidad de aprendizaje acelerado para la detección de errores, validación de
+            interfaces de usuario (UI) y ejecución de pruebas funcionales.
+          </p>
+        </section>
+
+        <section class="seccion">
+          <h2>Educación</h2>
+          <ul class="lista-educacion">
+            <li>
+              <h3>Ingeniería en Telemática</h3>
+              <p>Instituto Politécnico Nacional (IPN) - UPIITA · 8vo semestre (en curso)</p>
+            </li>
+            <li>
+              <h3>Técnico en Mantenimiento Industrial</h3>
+              <p>CECyT No. 8 “Narciso Bassols”, IPN</p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="seccion">
+          <h2>Habilidades técnicas</h2>
+          <dl class="habilidades">
+            <dt>Sistemas</dt>
+            <dd>
+              <ul class="chips">
+                <li>Unix/Linux</li>
+                <li>Windows</li>
+                <li>Máquinas virtuales (VM Oracle – VirtualBox)</li>
+                <li>Bases para adopción de macOS</li>
+              </ul>
+              <p>Uso de máquinas virtuales para pruebas multiplataforma.</p>
+            </dd>
+
+            <dt>Programación</dt>
+            <dd>
+              <ul class="chips">
+                <li>C</li>
+                <li>Java</li>
+                <li>Shell</li>
+                <li>HTML</li>
+                <li>.NET</li>
+              </ul>
+              <p>
+                Sólidas bases lógicas y de sintaxis que facilitan una rápida curva de
+                aprendizaje en Python y JavaScript, lenguajes utilizados en automatización
+                y scripting de pruebas.
+              </p>
+            </dd>
+
+            <dt>Herramientas y QA</dt>
+            <dd>
+              <ul class="chips">
+                <li>Visual Studio</li>
+                <li>DEVC++</li>
+                <li>Proteus</li>
+                <li>Git (en aprendizaje activo)</li>
+              </ul>
+              <p>
+                Interés en tipos de pruebas de software (funcionales, de interfaz de
+                usuario/UI, de regresión) como parte de mi formación en Aseguramiento de
+                Calidad (QA).
+              </p>
+            </dd>
+          </dl>
+        </section>
+
+        <section class="seccion">
+          <h2>Competencias blandas</h2>
+          <ul class="lista-competencias">
+            <li>Adaptabilidad y rápida capacidad de aprendizaje ante nuevas herramientas y entornos tecnológicos.</li>
+            <li>Trabajo en equipo, con enfoque colaborativo en proyectos académicos multidisciplinarios.</li>
+            <li>Resolución de problemas mediante pensamiento analítico y atención al detalle, competencias clave para la detección de fallos en QA.</li>
+            <li>Proactividad y orientación a resultados, con genuino interés en construir una carrera en el aseguramiento de calidad de software.</li>
+          </ul>
+        </section>
+      </article>
+
+      <!-- ===== Currículum 2 ===== -->
+      <article id="contenido-opc2" class="contenedor-opc">
+        <p class="etiqueta-cv">Currículum 2 de 3 · paleta análoga</p>
+
+        <section class="seccion">
+          <h2>Resumen profesional</h2>
+          <p>
+            Estudiante de 8vo semestre de Ingeniería en Telemática en el Instituto
+            Politécnico Nacional (IPN - UPIITA), con disponibilidad de horario para
+            incorporarse de inmediato en modalidad de medio tiempo e híbrida. Cuento con
+            bases sólidas en lógica de programación (C, Java, HTML) y en administración de
+            Sistemas Operativos (Unix/Linux y Windows), así como experiencia práctica en la
+            configuración y uso de Máquinas Virtuales (VM Oracle) para pruebas en distintos
+            entornos.
+          </p>
+          <p>
+            Interesado genuinamente en iniciar mi desarrollo profesional en el Aseguramiento
+            de Calidad (QA) de software, aplicando pensamiento analítico, atención al detalle
+            y capacidad de aprendizaje acelerado para la detección de errores, validación de
+            interfaces de usuario (UI) y ejecución de pruebas funcionales.
+          </p>
+        </section>
+
+        <section class="seccion">
+          <h2>Educación</h2>
+          <ul class="lista-educacion">
+            <li>
+              <h3>Ingeniería en Telemática</h3>
+              <p>Instituto Politécnico Nacional (IPN) - UPIITA · 8vo semestre (en curso)</p>
+            </li>
+            <li>
+              <h3>Técnico en Mantenimiento Industrial</h3>
+              <p>CECyT No. 8 “Narciso Bassols”, IPN</p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="seccion">
+          <h2>Habilidades técnicas</h2>
+          <dl class="habilidades">
+            <dt>Sistemas</dt>
+            <dd>
+              <ul class="chips">
+                <li>Unix/Linux</li>
+                <li>Windows</li>
+                <li>Máquinas virtuales (VM Oracle - VirtualBox)</li>
+                <li>Bases para adopción de macOS</li>
+              </ul>
+              <p>Uso de máquinas virtuales para pruebas multiplataforma.</p>
+            </dd>
+
+            <dt>Programación</dt>
+            <dd>
+              <ul class="chips">
+                <li>C</li>
+                <li>Java</li>
+                <li>Shell</li>
+                <li>HTML</li>
+                <li>.NET</li>
+              </ul>
+              <p>
+                Sólidas bases lógicas y de sintaxis que facilitan una rápida curva de
+                aprendizaje en Python y JavaScript, lenguajes utilizados en automatización
+                y scripting de pruebas.
+              </p>
+            </dd>
+
+            <dt>Herramientas y QA</dt>
+            <dd>
+              <ul class="chips">
+                <li>Visual Studio</li>
+                <li>DEVC++</li>
+                <li>Proteus</li>
+                <li>Git (en aprendizaje activo)</li>
+              </ul>
+              <p>
+                Interés en tipos de pruebas de software (funcionales, de interfaz de
+                usuario/UI, de regresión) como parte de mi formación en Aseguramiento de
+                Calidad (QA).
+              </p>
+            </dd>
+          </dl>
+        </section>
+
+        <section class="seccion">
+          <h2>Competencias blandas</h2>
+          <ul class="lista-competencias">
+            <li>Adaptabilidad y rápida capacidad de aprendizaje ante nuevas herramientas y entornos tecnológicos.</li>
+            <li>Trabajo en equipo, con enfoque colaborativo en proyectos académicos multidisciplinarios.</li>
+            <li>Resolución de problemas mediante pensamiento analítico y atención al detalle, competencias clave para la detección de fallos en QA.</li>
+            <li>Proactividad y orientación a resultados, con genuino interés en construir una carrera en el aseguramiento de calidad de software.</li>
+          </ul>
+        </section>
+      </article>
+
+      <!-- ===== Currículum 3 ===== -->
+      <article id="contenido-opc3" class="contenedor-opc">
+        <p class="etiqueta-cv">Currículum 3 de 3 · paleta complementaria</p>
+
+        <section class="seccion">
+          <h2>Resumen profesional</h2>
+          <p>
+            Estudiante de 8vo semestre de Ingeniería en Telemática en el Instituto
+            Politécnico Nacional (IPN - UPIITA), con disponibilidad de horario para
+            incorporarse de inmediato en modalidad de medio tiempo e híbrida. Cuento con
+            bases sólidas en lógica de programación (C, Java, HTML) y en administración de
+            Sistemas Operativos (Unix/Linux y Windows), así como experiencia práctica en la
+            configuración y uso de Máquinas Virtuales (VM Oracle) para pruebas en distintos
+            entornos.
+          </p>
+          <p>
+            Interesado genuinamente en iniciar mi desarrollo profesional en el Aseguramiento
+            de Calidad (QA) de software, aplicando pensamiento analítico, atención al detalle
+            y capacidad de aprendizaje acelerado para la detección de errores, validación de
+            interfaces de usuario (UI) y ejecución de pruebas funcionales.
+          </p>
+        </section>
+
+        <section class="seccion">
+          <h2>Educación</h2>
+          <ul class="lista-educacion">
+            <li>
+              <h3>Ingeniería en Telemática</h3>
+              <p>Instituto Politécnico Nacional (IPN) - UPIITA · 8vo semestre (en curso)</p>
+            </li>
+            <li>
+              <h3>Técnico en Mantenimiento Industrial</h3>
+              <p>CECyT No. 8 “Narciso Bassols”, IPN</p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="seccion">
+          <h2>Habilidades técnicas</h2>
+          <dl class="habilidades">
+            <dt>Sistemas</dt>
+            <dd>
+              <ul class="chips">
+                <li>Unix/Linux</li>
+                <li>Windows</li>
+                <li>Máquinas virtuales (VM Oracle - VirtualBox)</li>
+                <li>Bases para adopción de macOS</li>
+              </ul>
+              <p>Uso de máquinas virtuales para pruebas multiplataforma.</p>
+            </dd>
+
+            <dt>Programación</dt>
+            <dd>
+              <ul class="chips">
+                <li>C</li>
+                <li>Java</li>
+                <li>Shell</li>
+                <li>HTML</li>
+                <li>.NET</li>
+              </ul>
+              <p>
+                Sólidas bases lógicas y de sintaxis que facilitan una rápida curva de
+                aprendizaje en Python y JavaScript, lenguajes utilizados en automatización
+                y scripting de pruebas.
+              </p>
+            </dd>
+
+            <dt>Herramientas y QA</dt>
+            <dd>
+              <ul class="chips">
+                <li>Visual Studio</li>
+                <li>DEVC++</li>
+                <li>Proteus</li>
+                <li>Git (en aprendizaje activo)</li>
+              </ul>
+              <p>
+                Interés en tipos de pruebas de software (funcionales, de interfaz de
+                usuario/UI, de regresión) como parte de mi formación en Aseguramiento de
+                Calidad (QA).
+              </p>
+            </dd>
+          </dl>
+        </section>
+
+        <section class="seccion">
+          <h2>Competencias blandas</h2>
+          <ul class="lista-competencias">
+            <li>Adaptabilidad y rápida capacidad de aprendizaje ante nuevas herramientas y entornos tecnológicos.</li>
+            <li>Trabajo en equipo, con enfoque colaborativo en proyectos académicos multidisciplinarios.</li>
+            <li>Resolución de problemas mediante pensamiento analítico y atención al detalle, competencias clave para la detección de fallos en QA.</li>
+            <li>Proactividad y orientación a resultados, con genuino interés en construir una carrera en el aseguramiento de calidad de software.</li>
+          </ul>
+        </section>
+      </article>
+      </main>
+
+      <aside class="sidebar sidebar-right">
+        <h2>Datos clave</h2>
+        <dl class="datos">
+          <dt>Objetivo</dt>
+          <dd>Aseguramiento de Calidad (QA) de software</dd>
+          <dt>Disponibilidad</dt>
+          <dd>Inmediata, medio tiempo e híbrida</dd>
+          <dt>Idiomas</dt>
+          <dd>Inglés intermedio (lectura y comprensión técnica)</dd>
+        </dl>
+
+        <h2>Paleta de este CV</h2>
+        <p class="nombre-paleta">
+          <span class="paleta-cv1">Monocromática: un solo tono (250°)</span>
+          <span class="paleta-cv2">Análoga: tonos vecinos (140°, 170°, 200°)</span>
+          <span class="paleta-cv3">Complementaria: tonos opuestos (215° y 35°)</span>
+        </p>
+        <ul class="muestras">
+          <li><span class="muestra muestra-60"></span> 60 % fondo</li>
+          <li><span class="muestra muestra-30"></span> 30 % secundario</li>
+          <li><span class="muestra muestra-10"></span> 10 % acento</li>
+        </ul>
+      </aside>
+
+      <footer class="footer">
+        <p>&copy; 2026 Diego Uriel Perez Trejo · TareaCVS de Ingeniería Web</p>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>
