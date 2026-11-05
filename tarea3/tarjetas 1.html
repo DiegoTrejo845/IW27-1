@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Responsivo con Modo Oscuro</title>
+    <style>
+        /* ********** Modo Claro y Oscuro ********** */
+        :root {
+            --bg-color: #f4f7f6;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            --card-border: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --primary-color: #7EBC6F;
+            --primary-hover: #68a25b;
+            --price-color: #2c7a7b;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --card-border: #2c2c2c;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --primary-color: #7EBC6F;
+            --primary-hover: #96d486;
+            --price-color: #4fd1c5;
+        }
+    /* ******************************************** */
+
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        /* Botón de Cambio de Tema */
+        .theme-toggle-container {
+            text-align: right;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto 10px auto;
+        }
+
+        #btnToggleTheme {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+
+        #btnToggleTheme:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Contenedor del Buscador */
+        .search-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 10px auto 30px auto;
+            text-align: center;
+        }
+
+        .search-container input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 18px;
+            font-size: 16px;
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            outline: none;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+
+        .catalog {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        /* Tarjetas Elegantes y de Mayor Tamaño */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 6px 15px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 25px var(--shadow-color);
+            border-color: var(--primary-color);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .card .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .card span {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--price-color);
+        }
+
+        .not-found {
+            display: none;
+            grid-column: 1 / -1;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 40px;
+            color: var(--text-color);
+        }
+    </style>
+    <script>
+        /* Declaración y ejecución de la función de forma automática */
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+</head>
+<body>
+    
+    <div class="theme-toggle-container">
+        <button id="btnToggleTheme">🌙 Modo Oscuro</button>
+    </div>
+
+    <!-- Barra de búsqueda -->
+    <div class="search-container">
+        <input type="text" class="search" id="inputBusqueda" placeholder="Busca un producto (ej. audifonos, teclado)...">
+    </div>
+
+    <!-- Catálogo de productos -->
+    <div class="catalog">      
+       <div class="card" data-nombre="audifonos inalambricos">
+          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60" alt="Audífonos inalámbricos"> 
+          <div class="product-name">Audífonos inalámbricos</div>      
+          <span>$800.00</span>
+       </div> 
+
+       <div class="card" data-nombre="teclado negro">
+          <img src="https://images.unsplash.com/photo-1697022976749-35bac4eb77dc?q=80&w=871&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"> 
+          <div class="product-name">Teclado negro</div>      
+          <span>$300.00</span>
+       </div>
+
+       <div class="card" data-nombre="audifonos blanco">
+          <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=500&auto=format&fit=crop&q=60" alt="Audífonos blancos"> 
+          <div class="product-name">Audífonos blancos</div>      
+          <span>$800.00</span>
+       </div> 
+
+       <div class="card" data-nombre="teclado blanco">
+          <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&auto=format&fit=crop&q=60" alt="Teclado mecánico negro"> 
+          <div class="product-name">Teclado blanco</div>      
+          <span>$300.00</span>
+       </div>
+
+       <div class="not-found" id="noEncontrado">No se encontraron productos con ese nombre.</div>
+    </div> 
+    
+    <script>        
+        const inputBusqueda = document.getElementById('inputBusqueda');
+        const tarjetas = document.querySelectorAll('.card');
+        const mensajeNoEncontrado = document.getElementById('noEncontrado');
+
+        inputBusqueda.addEventListener('input', (e) => {
+            const textoBusqueda = e.target.value.toLowerCase().trim();
+            let matches = 0;
+
+            tarjetas.forEach(tarjeta => {
+                const nombre = tarjeta.getAttribute('data-nombre').toLowerCase();
+                
+                if (nombre.includes(textoBusqueda)) {
+                    tarjeta.style.display = 'flex';
+                    matches++;
+                } else {
+                    tarjeta.style.display = 'none';
+                }
+            });
+
+            // mensaje no encontrado
+            if (matches === 0) {
+                mensajeNoEncontrado.style.display = 'block';
+            } else {
+                mensajeNoEncontrado.style.display = 'none';
+            }
+        });
+
+        /* Control del modo claro / oscuro */
+        const btnToggleTheme = document.getElementById('btnToggleTheme');
+        const htmlElement = document.documentElement;
+
+        btnToggleTheme.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+
+        // Uso de localstorage para la gestion del tema claro / oscuro            
+        if (currentTheme === 'dark') {
+            htmlElement.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+            btnToggleTheme.textContent = '🌙 Modo Oscuro';
+        } else {
+            htmlElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            btnToggleTheme.textContent = '☀️ Modo Claro';
+         }
+        });
+    </script>
+</body>
+</html>

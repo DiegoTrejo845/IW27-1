@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de productos</title>
+  <style>
+    /* ==========================================================
+       1. PALETA DE COLORES CON VARIABLES (HSL, regla 60-30-10)
+       - 60 %: fondo de la página
+       - 30 %: tarjetas y encabezado
+       - 10 %: acento verde (tarjeta seleccionada, precio, botón)
+       ========================================================== */
+
+    /* Modo claro (por defecto) */
+    :root {
+      --fondo: hsl(40, 40%, 96%);
+      --superficie: hsl(34, 70%, 92%);      /* tarjetas (tono "antiquewhite") */
+      --encabezado: hsl(108, 30%, 22%);
+      --texto: hsl(30, 20%, 14%);
+      --texto-suave: hsl(30, 12%, 33%);
+      --borde: hsl(34, 30%, 80%);
+      --acento: hsl(108, 40%, 36%);         /* verde de la tarjeta seleccionada */
+      --acento-suave: hsla(108, 36%, 59%, 0.45);  /* verde de la sombra */
+      --precio: hsl(108, 45%, 28%);
+      --sombra: hsla(30, 30%, 20%, 0.12);
+    }
+
+    /* Modo oscuro: mismas variables, otros valores.
+       Se activa cuando la etiqueta <html> tiene data-theme="dark". */
+    [data-theme="dark"] {
+      --fondo: hsl(30, 8%, 9%);
+      --superficie: hsl(30, 8%, 15%);
+      --encabezado: hsl(108, 20%, 16%);
+      --texto: hsl(35, 30%, 90%);
+      --texto-suave: hsl(35, 10%, 72%);
+      --borde: hsl(30, 6%, 28%);
+      --acento: hsl(108, 45%, 60%);
+      --acento-suave: hsla(108, 45%, 60%, 0.35);
+      --precio: hsl(108, 50%, 68%);
+      --sombra: hsla(0, 0%, 0%, 0.45);
+      color-scheme: dark;   /* el buscador y la barra de desplazamiento también se ponen oscuros */
+    }
+
+    /* ==========================================================
+       2. ESTILOS BASE
+       ========================================================== */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--fondo);
+      color: var(--texto);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* ==========================================================
+       3. MODELO GRID PARA LA PÁGINA
+       Filas: encabezado, buscador, catálogo y pie.
+       ========================================================== */
+    .pagina {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 24px;
+      width: 90%;
+      max-width: 1200px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 24px 0;
+    }
+
+    .encabezado {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 24px;
+      border-radius: 16px;
+      background-color: var(--encabezado);
+      color: hsl(0, 0%, 100%);
+    }
+
+    .encabezado h1 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+
+    /* Botón de modo claro / oscuro */
+    #btnTema {
+      padding: 10px 18px;
+      border: 2px solid hsl(0, 0%, 100%);
+      border-radius: 8px;
+      background-color: transparent;
+      color: hsl(0, 0%, 100%);
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    #btnTema:hover {
+      background-color: hsl(0, 0%, 100%);
+      color: var(--encabezado);
+    }
+
+    /* Barra de búsqueda */
+    .buscador {
+      text-align: center;
+    }
+
+    .buscador label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .buscador input {
+      width: 100%;
+      max-width: 500px;
+      padding: 12px 18px;
+      font-size: 16px;
+      border: 2px solid var(--acento);
+      border-radius: 12px;
+      background-color: var(--superficie);
+      color: var(--texto);
+    }
+
+    /* ==========================================================
+       4. MODELO GRID PARA EL CATÁLOGO
+       Tantas columnas como quepan, de mínimo 220 px.
+       ========================================================== */
+    .catalogo {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      align-content: start;
+    }
+
+    /* Los radios no se ven, pero siguen funcionando con clic o teclado.
+       position: absolute los saca de la cuadrícula. */
+    .selector {
+      position: absolute;
+      opacity: 0;
+    }
+
+    /* ==========================================================
+       5. MODELO FLEX PARA LAS TARJETAS
+       Imagen arriba, nombre y precio abajo.
+       ========================================================== */
+    .tarjeta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 16px;
+      background-color: var(--superficie);
+      border: 3px solid transparent;          /* reserva el espacio del borde */
+      border-radius: 16px;
+      box-shadow: 3px 3px 0 var(--acento-suave), 0 6px 15px var(--sombra);
+      cursor: pointer;
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .tarjeta img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;                      /* recorta sin deformar */
+      border-radius: 12px;
+    }
+
+    .tarjeta .nombre {
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .tarjeta .precio {
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--precio);
+    }
+
+    /* Efecto al pasar el cursor */
+    .tarjeta:hover {
+      transform: translateY(-6px);
+      box-shadow: 3px 3px 0 var(--acento-suave), 0 12px 25px var(--sombra);
+    }
+
+    /* ==========================================================
+       6. TARJETA SELECCIONADA
+       Radio marcado (:checked) + la tarjeta que le sigue (+):
+       cambia el color del borde.
+       ========================================================== */
+    .selector:checked + .tarjeta {
+      border-color: var(--acento);
+      transform: translateY(-6px);
+    }
+
+    /* Contorno visible al navegar con el teclado (Tab y flechas) */
+    .selector:focus-visible + .tarjeta {
+      outline: 3px dashed var(--acento);
+      outline-offset: 4px;
+    }
+
+    /* Mensaje cuando la búsqueda no encuentra nada */
+    .sin-resultados {
+      display: none;
+      grid-column: 1 / -1;                    /* ocupa todo el ancho del catálogo */
+      padding: 40px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--texto-suave);
+    }
+
+    .pie {
+      text-align: center;
+      font-size: 14px;
+      color: var(--texto-suave);
+    }
+  </style>
+
+  <script>
+    /* Antes de dibujar la página: si la última vez se eligió el modo oscuro,
+       se activa desde el principio (así no "parpadea" en claro). */
+    if (localStorage.getItem('tema') === 'oscuro') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  </script>
+</head>
+<body>
+  <div class="pagina">
+    <header class="encabezado">
+      <h1>Catálogo de productos</h1>
+      <button type="button" id="btnTema"> Modo oscuro</button>
+    </header>
+
+    <!-- Barra de búsqueda -->
+    <div class="buscador">
+      <label for="inputBusqueda">Buscar producto</label>
+      <input type="search" id="inputBusqueda" placeholder="Ej. audifonos, teclado">
+    </div>
+
+    <!--
+      Catálogo. Cada producto = un radio + su tarjeta.
+      - Todos los radios tienen el mismo name: solo una tarjeta seleccionada a la vez.
+      - Cada <label for="..."> apunta al id de su radio: clic en la tarjeta = marcar el radio.
+      - data-nombre: el texto que usa la búsqueda (en minúsculas y sin acentos).
+      - Las imágenes llevan auto=format: el servidor las entrega en WebP (o AVIF)
+        a los navegadores que lo soportan.
+    -->
+    <main class="catalogo">
+      <input type="radio" name="producto" id="producto-1" class="selector">
+      <label for="producto-1" class="tarjeta" data-nombre="audifonos inalambricos">
+        <img src="https://images.unsplash.com/photo-1781652458706-9576a77fa01a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="Audífonos inalámbricos">
+        <span class="nombre">Audífonos inalámbricos</span>
+        <span class="precio">$800.00</span>
+      </label>
+
+      <input type="radio" name="producto" id="producto-2" class="selector">
+      <label for="producto-2" class="tarjeta" data-nombre="teclado negro">
+        <img src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="Teclado negro">
+        <span class="nombre">Teclado negro</span>
+        <span class="precio">$300.00</span>
+      </label>
+
+      <input type="radio" name="producto" id="producto-3" class="selector">
+      <label for="producto-3" class="tarjeta" data-nombre="audifonos blancos">
+        <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=500&auto=format&fit=crop&q=60" alt="Audífonos blancos">
+        <span class="nombre">Audífonos blancos</span>
+        <span class="precio">$800.00</span>
+      </label>
+
+      <input type="radio" name="producto" id="producto-4" class="selector">
+      <label for="producto-4" class="tarjeta" data-nombre="teclado blanco">
+        <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&auto=format&fit=crop&q=60" alt="Teclado blanco">
+        <span class="nombre">Teclado blanco</span>
+        <span class="precio">$300.00</span>
+      </label>
+
+      <p class="sin-resultados" id="noEncontrado">No se encontraron productos con ese nombre.</p>
+    </main>
+
+    <footer class="pie">
+      <p>Ejemplo de catálogo con Grid, Flexbox, búsqueda y modo claro / oscuro</p>
+    </footer>
+  </div>
+
+  <script>
+    /* ==========================================================
+       BARRA DE BÚSQUEDA
+       Agregado: contar coincidencias para mostrar el mensaje
+       "No se encontraron productos"
+       ========================================================== */
+    const inputBusqueda = document.getElementById('inputBusqueda');
+    const tarjetas = document.querySelectorAll('.tarjeta');
+    const mensajeNoEncontrado = document.getElementById('noEncontrado');
+
+    inputBusqueda.addEventListener('input', (e) => {
+      const textoBusqueda = e.target.value.toLowerCase().trim();
+      let coincidencias = 0;
+
+      tarjetas.forEach(tarjeta => {
+        const nombre = tarjeta.getAttribute('data-nombre').toLowerCase();
+
+        if (nombre.includes(textoBusqueda)) {
+          tarjeta.style.display = 'flex';
+          coincidencias++;
+        } else {
+          tarjeta.style.display = 'none';
+        }
+      });
+
+      if (coincidencias === 0) {
+        mensajeNoEncontrado.style.display = 'block';
+      } else {
+        mensajeNoEncontrado.style.display = 'none';
+      }
+    });
+
+    /* ==========================================================
+       MODO CLARO / OSCURO
+       - Cambia el atributo data-theme de <html>; el CSS cambia las variables.
+       - localStorage guarda la elección para la próxima vez.
+       ========================================================== */
+    const btnTema = document.getElementById('btnTema');
+    const raiz = document.documentElement;
+
+    function actualizarTextoBoton() {
+      if (raiz.getAttribute('data-theme') === 'dark') {
+        btnTema.textContent = ' Modo claro';
+      } else {
+        btnTema.textContent = ' Modo oscuro';
+      }
+    }
+
+    actualizarTextoBoton();   // al cargar, por si quedó guardado el modo oscuro
+
+    btnTema.addEventListener('click', () => {
+      if (raiz.getAttribute('data-theme') === 'dark') {
+        raiz.removeAttribute('data-theme');
+        localStorage.setItem('tema', 'claro');
+      } else {
+        raiz.setAttribute('data-theme', 'dark');
+        localStorage.setItem('tema', 'oscuro');
+      }
+      actualizarTextoBoton();
+    });
+  </script>
+</body>
+</html>
