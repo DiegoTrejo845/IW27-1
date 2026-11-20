@@ -1,0 +1,20 @@
+{
+  "name": "formularios-express",
+  "version": "1.0.0",
+  "description": "Formularios de login, registro y recuperación servidos con Node.js y Express",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [],
+  "author": "Diego Uriel Pérez Trejo",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

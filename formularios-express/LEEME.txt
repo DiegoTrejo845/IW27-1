@@ -1,0 +1,35 @@
+Actividad del 19 de noviembre: formulario + servidor con Express
+
+Lo que pidió el profesor para subir hoy (lo que se hizo antes de fetch):
+  - El formulario de inicio de sesión dentro de public/.
+  - El código del servidor (src/app.js) con una ruta que reciba los datos del formulario.
+  - Que la ruta conteste con un mensaje de prueba.
+
+Estructura
+  public/
+    index.html       los cuatro formularios; el de login tiene action="/login" y method="POST"
+    style.css
+    app_front.js     cambia de formulario, mensajes de validación, ver contraseña, modo oscuro
+  src/
+    app.js           servidor: express.json, express.urlencoded, express.static
+                     y la ruta app.post('/login')
+  package.json       "type": "module", scripts start y dev, express y nodemon
+  .gitignore         deja fuera node_modules
+
+Cómo correrlo (PowerShell, dentro de formularios-express)
+  npm install        la primera vez
+  npm run dev
+  Abre http://localhost:3000, escribe un correo y una contraseña válidos (ej. Correo2026)
+  y presiona Enviar: el servidor contesta "Prueba de respuesta a una petición"
+  con el correo que mandaste.
+  Ctrl + C para detenerlo.
+
+
+Para el martes (todavía NO va en esta entrega)
+  Quitar action y method del form y mandar los datos con fetch en JSON (async / await),
+  con una respuesta en JSON en lugar de HTML. Rutas que mostró el profesor:
+    app.post('/api/register', register);
+    app.post('/api/login', login);
+    app.get('/api/recovery/:email', getQuestion);
+    app.post('/api/recovery', recoverPassword);
+  Los mensajes se mostrarán en una ventana modal; mientras no la tengan, con console.log.
